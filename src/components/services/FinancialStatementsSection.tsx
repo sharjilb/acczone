@@ -4,7 +4,7 @@ import Image from "next/image";
 // import { FaXTwitter } from "react-icons/fa6";
 import FSCard from "./FSCard";
 import ServicesFooter from "./ServicesFooter";
-import FAQs from "./OurApproach";
+import FAQSection from "@/components/FAQSection";
 import ServicesGrid from "./ServicesGrid";
 
 const financialStatementsCards = [
@@ -202,9 +202,12 @@ export default function FinancialStatementsSection() {
             </div>
           </div>
 
-          <FAQs
+          <FAQSection
             title="We offer support to businesses of all types"
-            faqs={faqs}
+            faqs={faqs.map(faq => ({
+              question: faq.heading,
+              answer: faq.description
+            }))}
           />
 
           <ServicesFooter

@@ -2,10 +2,7 @@
 import FSCard from "@/components/services/FSCard";
 import ServicesFooter from "@/components/services/ServicesFooter";
 import AboutSection from "@/components/Home/AboutSection";
-
-import AOS from "aos";
-import "aos/dist/aos.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const taxPlanningCards = [
   {
@@ -69,8 +66,24 @@ const ourCommitmentsCard = [
 ];
 
 export default function About() {
+  const [isClient, setIsClient] = useState(false);
+
   useEffect(() => {
-    AOS.init();
+    setIsClient(true);
+    const initAOS = async () => {
+      if (typeof window !== 'undefined') {
+        const AOS = (await import('aos')).default;
+        import('aos/dist/aos.css');
+        AOS.init({
+          once: true,
+          disable: 'phone',
+          duration: 700,
+          easing: 'ease-out-cubic',
+        });
+      }
+    };
+    
+    initAOS();
   }, []);
 
   return (

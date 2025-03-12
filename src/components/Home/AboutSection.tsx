@@ -2,17 +2,28 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "@/app/css/aos.css";
 
-AOS.init({
-  duration: 1000,
-});
-
 export default function AboutSection() {
   const router = useRouter();
+
+  useEffect(() => {
+    const initAOS = async () => {
+      if (typeof window !== 'undefined') {
+        const AOS = (await import('aos')).default;
+        import('aos/dist/aos.css');
+        AOS.init({
+          duration: 1000,
+        });
+      }
+    };
+    
+    initAOS();
+  }, []);
 
   return (
     <section className="flex flex-wrap px-8 container lg:ws-2/3 mx-auto flex-col items-center md:flex-row">

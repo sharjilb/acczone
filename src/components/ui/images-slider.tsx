@@ -25,6 +25,7 @@ export const ImagesSlider = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(false);
   const [loadedImages, setLoadedImages] = useState<string[]>([]);
+  const [isBrowser, setIsBrowser] = useState(false);
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) =>
@@ -39,10 +40,16 @@ export const ImagesSlider = ({
   };
 
   useEffect(() => {
-    loadImages();
+    setIsBrowser(true);
   }, []);
 
+  useEffect(() => {
+    if (!isBrowser) return;
+    loadImages();
+  }, [isBrowser]);
+
   const loadImages = () => {
+    if (!isBrowser) return;
     setLoading(true);
     const loadPromises = images.map((image) => {
       return new Promise((resolve, reject) => {
@@ -62,6 +69,8 @@ export const ImagesSlider = ({
   };
 
   useEffect(() => {
+    if (!isBrowser) return;
+    
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "ArrowRight") {
         handleNext();
@@ -84,7 +93,7 @@ export const ImagesSlider = ({
       window.removeEventListener("keydown", handleKeyDown);
       clearInterval(interval);
     };
-  }, []);
+  }, [isBrowser]);
 
   const slideVariants = {
     initial: {
@@ -116,6 +125,8 @@ export const ImagesSlider = ({
       },
     },
   };
+
+  if (!isBrowser) return null;
 
   const areImagesLoaded = loadedImages.length > 0;
 
